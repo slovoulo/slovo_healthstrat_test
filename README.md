@@ -1,0 +1,1 @@
+# slovo_healthstrat_test
