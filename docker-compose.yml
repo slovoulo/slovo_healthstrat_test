@@ -1,0 +1,57 @@
+version: '3.8' #compose file version
+#networks:
+ # my-network:
+    #driver: bridge
+
+
+services:
+  
+
+  health_service:
+    build: 
+      context: ./../slovo_healthstrat_test
+      dockerfile: ./../slovo_healthstrat_test/health_service.dockerfile
+    image: "health-service"
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "8081:8081"
+    #networks:
+      #- my-network
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:  #Ensures the recipes service will wait for databse service to start
+  # notice: these lines don't start with "-"
+      database:
+        condition: service_healthy
+  
+
+  database:
+    image: postgres:alpine
+    container_name: postgres_micro
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DBUSER}
+      - POSTGRES_PASSWORD=${DBPASSWORD}
+      - POSTGRES_DB=${DBNAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DBUSER} -d ${DBNAME}'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 6s
+    #networks:
+      #- my-network
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+  
+
+
+volumes:
+  database_postgres:
+ 
