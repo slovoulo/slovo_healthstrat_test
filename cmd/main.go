@@ -40,7 +40,7 @@ var (
 )
 
 func main() {
-	dsn := "user=username password=password dbname=database sslmode=disable"
+	dsn := "user=user password=password dbname=database sslmode=disable"
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
