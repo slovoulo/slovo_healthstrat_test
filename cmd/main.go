@@ -57,7 +57,7 @@ func main() {
 
 	http.Handle("/", r)
 
-	serverAddr := "localhost:8080"
+	serverAddr := "localhost:8081"
 	fmt.Printf("Server listening on %s...\n", serverAddr)
 	log.Fatal(http.ListenAndServe(serverAddr, nil))
 }
