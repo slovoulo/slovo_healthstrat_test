@@ -31,12 +31,10 @@ services:
   database:
     image: postgres:alpine
     container_name: postgres_micro
-    env_file:
-      - .env
     environment:
-      - POSTGRES_USER=${DBUSER}
-      - POSTGRES_PASSWORD=${DBPASSWORD}
-      - POSTGRES_DB=${DBNAME}
+      - POSTGRES_USER="user"
+      - POSTGRES_PASSWORD="password"
+      - POSTGRES_DB="database"
     ports:
       - "5432:5432"
     healthcheck:
